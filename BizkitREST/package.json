@@ -1,0 +1,11 @@
+{
+  "name": "BizkitREST",
+  "version": "1.0.0",
+  "description": "RestAPI for bizkit App",
+  "main": "index.js",
+  "author": "KestrelPanic",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
