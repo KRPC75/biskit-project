@@ -1,4 +1,4 @@
-package com.dices.biskit.models;
+package com.dices.biskit.models.dices;
 
 import com.dices.biskit.models.dices.ClassicDice;
 import org.junit.Assert;

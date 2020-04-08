@@ -4,5 +4,6 @@ public enum RuleType {
     DICE,
     VALUE,
     PLAYER,
-    SITUATION
+    SITUATION,
+    DOUBLE
 }
