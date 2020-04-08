@@ -1,10 +1,11 @@
 package com.dices.biskit.models.rules;
 
 import com.dices.biskit.enums.RuleType;
+import com.dices.biskit.models.dices.Dice;
 
 import java.util.List;
 
-public class DiceRule extends Rule<List<Integer>> {
+public class DiceRule extends Rule<List<Dice>> {
 
     private Integer diceValue;
 
@@ -12,8 +13,19 @@ public class DiceRule extends Rule<List<Integer>> {
         super(RuleType.DICE);
     }
 
-    public Boolean applyIt(List<Integer> dicesValues) {
-        return dicesValues.contains(diceValue);
+    public DiceRule(Integer diceValue) {
+        super(RuleType.DICE);
+        this.diceValue = diceValue;
+    }
+
+    public Boolean doApplyIt(List<Dice> diceList) {
+        return diceList
+                .stream()
+                .anyMatch(dice -> dice.getValue().equals(diceValue));
+    }
+
+    public void applyIt() {
+        System.out.println(String.format("%d : %s", diceValue, message));
     }
 
     public Integer getDiceValue() {

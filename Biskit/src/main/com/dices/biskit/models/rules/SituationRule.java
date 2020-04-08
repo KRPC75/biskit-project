@@ -8,7 +8,11 @@ public class SituationRule extends Rule<String> {
         super(RuleType.SITUATION);
     }
 
-    public Boolean applyIt(String obj) {
+    public Boolean doApplyIt(String obj) {
         return null;
+    }
+
+    public void applyIt() {
+        System.out.println(String.format("%s", message));
     }
 }

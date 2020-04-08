@@ -11,8 +11,12 @@ public class PlayerRule extends Rule<Player> {
         super(RuleType.PLAYER);
     }
 
-    public Boolean applyIt(Player obj) {
+    public Boolean doApplyIt(Player obj) {
         return null;
+    }
+
+    public void applyIt() {
+        System.out.println(String.format("%s : %s", player.getName(), message));
     }
 
     public Player getPlayer() {

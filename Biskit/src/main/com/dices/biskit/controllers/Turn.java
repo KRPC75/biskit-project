@@ -4,10 +4,12 @@ import com.dices.biskit.models.Player;
 import com.dices.biskit.models.Result;
 import com.dices.biskit.models.dices.Dice;
 import com.dices.biskit.models.rules.Rule;
+import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Controller
 public class Turn {
 
     List<Dice> gameDices;
@@ -33,14 +35,16 @@ public class Turn {
             Boolean applyIt = false;
             switch (rule.getType()) {
                 case DICE:
-                    applyIt = rule.applyIt(result.getDiceList());
+                    applyIt = rule.doApplyIt(result.getDiceList());
                     break;
                 case VALUE:
-                    applyIt = rule.applyIt(result.getTotal());
+                    applyIt = rule.doApplyIt(result.getTotal());
                     break;
                 case PLAYER:
-                    applyIt = rule.applyIt(player);
+                    applyIt = rule.doApplyIt(player);
                     break;
+                case DOUBLE:
+                    applyIt = rule.doApplyIt(result.getDiceList());
                 default:
                     break;
             }
@@ -51,10 +55,16 @@ public class Turn {
     }
 
     void applyRules(List<Rule> rulesToApply) {
-
+        for (Rule rule : rulesToApply) {
+            rule.applyIt();
+        }
     }
 
     public void setGameDices(List<Dice> gameDices) {
         this.gameDices = gameDices;
+    }
+
+    public void setGameRules(List<Rule> gameRules) {
+        this.gameRules = gameRules;
     }
 }
