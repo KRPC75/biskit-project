@@ -55,8 +55,8 @@ app.post("/room", (req, res) => {
         user_list: [
 
         ],
-        turn_direction: "clockwise",
-        dice_values: []
+        dice_value: []
+
     }
     new_room.user_list.push(user.find(usr => usr.id == req.query.user_id).name);
     rooms.push(new_room);
@@ -70,6 +70,75 @@ app.post("/room", (req, res) => {
 })
 
 /* GET REQUEST */
+app.get("/rooms", (req, res) => {
+    return (res.send(JSON.stringify({
+        code: 200,
+        message: "OK",
+        rooms: rooms
+    })))
+})
 
+app.get("/get_room_dice/", (req, res) => {
+    if (!req.query.room_id)
+    {   
+        res.send(JSON.stringify({
+            code: 400,
+            message: "missing room id"
+        }))
+    }
+    current_room = rooms.findIndex(room => room.id == req.query.room_id);
+   
+    return (res.send(JSON.stringify({
+        code: 200,
+        message: "OK",
+        dice_value: rooms[current_room].dice_value
+    })))
+})
 
 /* PUT REQUEST */
+app.put("/join", (req, res) => {
+    if (!req.query.user_id || !req.query.room_id)
+    {
+        return res.send(JSON.stringify({
+            code: 400,
+            message: "Bad request",
+            query: req.query,
+        }))
+    }
+
+    
+    room_index = rooms.findIndex(room => room.id == req.query.room_id);
+   
+    if (!rooms[room_index].user_list.push(user.find(usr => usr.id == req.query.user_id).name))
+    {
+        return res.send(JSON.stringify({
+            code: 400,
+            message: "Error on joining game",
+        }))
+    }
+    else
+    {
+        return (res.send(JSON.stringify({
+            code: 200,
+            message: "Joined game successfully",
+        })))
+    }
+})
+
+app.put("/update_dice/", (req, res) => {
+    if (!req.query.user_id || !req.query.room_id || !req.query.dice_value)
+    {
+        return res.send(JSON.stringify({
+            code: 400,
+            message: "Bad request",
+            query: req.query,
+        }))
+    }
+    room_index = rooms.findIndex(room => room.id == req.query.room_id)
+    rooms[room_index].dice_value = req.query.dice_value;
+    return res.send(JSON.stringify({
+        code: 200,
+        message: "Dice value successfully updated"
+    }))
+})
+
