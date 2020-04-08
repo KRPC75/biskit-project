@@ -1,5 +1,6 @@
-package com.dices.biskit.controllers;
+package com.dices.biskit.core;
 
+import com.dices.biskit.core.Turn;
 import com.dices.biskit.models.Player;
 import com.dices.biskit.models.Result;
 import com.dices.biskit.models.dices.ClassicDice;

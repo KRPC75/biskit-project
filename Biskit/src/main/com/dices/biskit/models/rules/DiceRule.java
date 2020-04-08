@@ -1,6 +1,7 @@
 package com.dices.biskit.models.rules;
 
 import com.dices.biskit.enums.RuleType;
+import com.dices.biskit.enums.SpecialEffect;
 import com.dices.biskit.models.dices.Dice;
 
 import java.util.List;
@@ -16,6 +17,13 @@ public class DiceRule extends Rule<List<Dice>> {
     public DiceRule(Integer diceValue) {
         super(RuleType.DICE);
         this.diceValue = diceValue;
+    }
+
+    public DiceRule(Integer diceValue, SpecialEffect specialEffect, String message) {
+        super(RuleType.DICE);
+        this.diceValue = diceValue;
+        this.specialEffect = specialEffect;
+        this.message = message;
     }
 
     public Boolean doApplyIt(List<Dice> diceList) {

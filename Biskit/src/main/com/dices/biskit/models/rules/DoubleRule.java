@@ -37,6 +37,13 @@ public class DoubleRule extends Rule<List<Dice>> {
     }
 
     public void applyIt() {
+    }
 
+    public Integer getDoubleValue() {
+        return doubleValue;
+    }
+
+    public void setDoubleValue(Integer doubleValue) {
+        this.doubleValue = doubleValue;
     }
 }

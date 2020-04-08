@@ -1,4 +1,4 @@
-package com.dices.biskit.controllers;
+package com.dices.biskit.core;
 
 public class Game {
 

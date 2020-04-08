@@ -2,6 +2,7 @@ package com.dices.biskit.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class Player {
 
@@ -21,8 +22,13 @@ public class Player {
         this.name = name;
     }
 
-    public void addJails(Integer digit) {
+    public void addJail(Integer digit) {
         jails.add(digit);
+    }
+
+    public void removeJail(Integer digit) {
+        Predicate<Integer> predicate = number -> number == digit;
+        jails.removeIf(predicate);
     }
 
     public Boolean hasJail(Integer digit) {
