@@ -1,5 +1,6 @@
 package com.dices.biskit.core;
 
+import com.dices.biskit.enums.GameAction;
 import com.dices.biskit.enums.RuleType;
 import com.dices.biskit.enums.SpecialEffect;
 import com.dices.biskit.models.Player;
@@ -30,10 +31,10 @@ public class Turn {
      * @param gameRules     Liste des règles de la partie
      * @param playerList    Liste des joueurs de la partie
      */
-    public void doTurn(Player player, List<Dice> gameDices, List<Rule> gameRules, List<Player> playerList) {
+    public GameAction doTurn(Player player, List<Dice> gameDices, List<Rule> gameRules, List<Player> playerList) {
         Result result = throwDices(gameDices);
         List<Rule> rulesToApply = defineRulesToApply(result, player, gameRules);
-        applyRules(rulesToApply, gameRules, player, playerList);
+        return applyRules(rulesToApply, gameRules, player, playerList);
     }
 
     /**
@@ -91,7 +92,10 @@ public class Turn {
      * @param player        Joueur ayant lancé les dés
      * @param playerList    Liste des joueurs
      */
-    void applyRules(List<Rule> rulesToApply, List<Rule> rules, Player player, List<Player> playerList) {
+    GameAction applyRules(List<Rule> rulesToApply, List<Rule> rules, Player player, List<Player> playerList) {
+
+        GameAction action = GameAction.PLAY;
+
         List<SpecialEffect> specialEffects = new ArrayList<>();
         for (Rule rule : rulesToApply) {
             switch (rule.getSpecialEffect()) {
@@ -100,17 +104,20 @@ public class Turn {
                     break;
                 case DUEL:
                     break;
-                case REVERT:
-                    break;
                 case NEW:
                     break;
                 case PASS:
+                    action = GameAction.PASS;
+                    break;
+                case REVERT:
+                    action = GameAction.REVERT;
                     break;
                 default:
                     break;
             }
             rule.applyIt();
         }
+        return action;
     }
 
     /**
@@ -133,9 +140,9 @@ public class Turn {
         if (null != jailedPlayer) {
             jailedPlayer.removeJail(doubleRule.getDoubleValue());
             // Suppression de la règle de dé représentant la prison
-            Predicate<Rule> predicate = toEraseRule -> toEraseRule.getType() == RuleType.DICE &&
-                    rule.getSpecialEffect() == SpecialEffect.DRINK &&
-                    ((DiceRule) rule).getDiceValue() == doubleRule.getDoubleValue();
+            Predicate<Rule> predicate = (toEraseRule) -> (RuleType.DICE.equals(toEraseRule.getType()) &&
+                     SpecialEffect.DRINK.equals(toEraseRule.getSpecialEffect()) &&
+                    ((DiceRule) toEraseRule).getDiceValue().equals(doubleRule.getDoubleValue()));
             ruleList.removeIf(predicate);
         }
 
